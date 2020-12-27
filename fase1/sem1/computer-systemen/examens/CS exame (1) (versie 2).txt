@@ -1,0 +1,83 @@
+%include "gt.asm"
+covar
+inarea : resb 70
+outarea : resb 70
+          db 0Dh, 0Ah
+          
+aantalInDoelgroep : resd 1
+totaalAantalKlanten : resd 1
+percentage : resd 1
+text : db '   % van onze klanten maken deel uit van de doelgroep.'
+
+honderd : dd 100
+inleiding
+openin
+openuit
+
+leesInvoer :
+lees
+cmp eax, 0
+je eof
+    mov ebx, 1
+    add [totaalAantalKlanten], ebx
+    cld
+    mov esi, inarea + 26
+    lodsb
+    cmp al, 'V'
+    jne nietInDoelgroep ; Is man
+        cld
+        mov esi, inarea + 27
+        mov ecx, 4
+        tekstbin
+        cmp eax, 1987
+        jle nietInDoelgroep ; Is onder 30 (- 1987)
+            
+            add [aantalInDoelgroep], ebx
+            
+    nietInDoelgroep:
+jmp leesInvoer
+eof:
+
+call spaties
+mov edi, outarea
+mov esi, text
+mov ecx, 54
+rep movsb
+
+; Aantal in %
+mov eax, [aantalInDoelgroep]
+imul dword [honderd]
+idiv dword [totaalAantalKlanten]
+
+call ascii
+schrijf
+slot
+
+spaties :
+    cld
+    mov ecx, 70
+    mov al, ' '
+    mov edi, outarea
+    rep stosb
+ret
+
+ascii : 
+    mov edi, outarea + 2
+    mov ebx, 10
+    std
+    lus:
+        mov edx, 0
+        idiv ebx
+        or dl, 30h
+        xchg al, dl
+        stosb
+        xchg al, dl
+    cmp eax, 0
+    jne lus
+ret
+
+////////////////////
+Sofie                     V1990  5350
+Nancy                     V1968  1995
+David                     M1988  10000
+Anneleen                  V1988  25000

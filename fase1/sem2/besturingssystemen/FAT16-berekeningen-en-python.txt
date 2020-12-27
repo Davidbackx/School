@@ -1,0 +1,27 @@
+# FORMULES VAN ADRES BEREKENINGEN
+
+# FAT entry = fat_start + cluster_id * 2 * 2  ## omdat: een fat entry 2 bytes is dus als ge u fat entry met id 100 wilt vinden moet ge 100 * 2 omdat anders ge anders maar in de helft geraakt
+# Fysiek = data_start + cluster_size * (cluster_id - 2) ## - 2 omdat de eerste 2 clusters worden gebruikt voor iets anders (denk ik)
+
+# First FAT Address = Reserved sectors from the start of the volume * Bytes per sector
+# Root Directory Address = First FAT Address + Number of FAT copies + Size of FAT in Bytes
+# Data Region Address = Root Directory Size in Bytes + Root Directory Address
+# Total Size of FAT16 Volume in Bytes = Small number of sectors * Bytes per sector
+# Boot sector adress = GPT entry first LBA * block size
+# End of file = filesize - cluster_size * (aantal_clusters - 1) + fysiek_adres_laatste_cluster
+
+fat_start = x 
+data_start = x
+cluster_size = x
+
+def fysiek (cluster_id): return data_start + cluster_size * (cluster_id - 2);
+
+def fat (cluster_id): return fat_start + cluster_id * 2;
+	
+def hfysiek (cluster_id): return hex(fysiek(cluster_id));
+
+def hfat (cluster_id): return hex(fat(cluster_id));
+	
+def info () : return print(f'fat_start={fat_start}    {hex(fat_start)}\ndata_start={data_start}    {hex(data_start)}\ncluster_size={cluster_size}');
+
+def dec(hex_number): return int(str(hex_number),16);

@@ -1,0 +1,100 @@
+%include "gt.asm"
+covar
+inarea : resb 70
+outarea : resb 70
+          db 0Dh, 0Ah
+getal : resd 1
+index : resd 1
+som : resd 1
+isFib : resd 1
+fibText : db 'IS HET     e FIBONACCI GETAL'
+nietFibText : db 'IS GEEN FIBONACCI GETAL'
+inleiding
+openin 
+openuit
+
+Lus :
+    lees 
+    cmp eax, 0
+    je eof
+    
+    ; Kopieer lijn (incl. spaties!)
+    mov esi, inarea
+    mov edi, outarea
+    mov ecx, 70
+    rep movsb
+
+    mov esi, inarea
+    mov ecx, 7
+    tekstbin
+    mov [getal], eax
+    
+    call fib
+    mov eax, 0
+    cmp [isFib], eax
+    je nietfib
+        mov esi, fibText
+        mov ecx, 51
+        jmp uitvoer
+    nietfib :
+        mov esi, nietFibText
+        mov ecx, 23
+    uitvoer :
+    
+    cld
+    mov edi, outarea + 7
+    rep movsb
+    
+    mov eax, 0
+    cmp [isFib], eax
+        je schrijfWeg
+        mov eax, [index]
+        call ascii
+        
+    schrijfWeg :
+    schrijf
+jmp Lus
+eof:
+slot
+fib :
+    mov edi, 2 
+    mov [index], edi ; Index moet vanaf 2 beginnen omdat 0 en 1 van fib niet 
+                     ; worden meegetelt
+    mov edi, 1 ; = Constant
+    mov edx, 0
+    mov ebx, 1
+    fibLus:
+        add [index], edi
+        mov [som], edx
+        add [som], ebx
+        mov edx, ebx
+        mov ebx, [som]
+        cmp ebx, [getal]
+        je welFib 
+        jg nietFib 
+    jmp fibLus
+        nietFib :
+            mov eax, 0
+            mov [isFib], eax
+            jmp return
+        welFib :
+            mov eax, 1
+            mov [isFib], eax
+return :
+ret
+
+ascii : 
+    mov edi, outarea + 17
+    mov ebx,10
+    std
+    lus:
+        mov edx,0
+        idiv ebx
+        or dl,30h
+        xchg al,dl
+        stosb
+        xchg al,dl
+        cmp eax,0
+    jne lus
+    cld
+ret

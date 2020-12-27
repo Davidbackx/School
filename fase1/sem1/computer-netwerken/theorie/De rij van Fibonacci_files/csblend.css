@@ -1,0 +1,114 @@
+﻿#asmsource {
+    height: 400px;
+    width: 100%;
+}
+
+#asmconsole {
+    height: 400px;
+    width: 100%;
+    background-color: #eee;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 5px;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 12px;
+}
+
+#InputData, #OutputData {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    width: 100%;
+    font-size: 12px;
+    padding: 5px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
+
+#OutputData {
+    height: 400px;
+}
+
+#InputData {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    height: 369px;
+}
+
+.columnNumbers {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 12px;
+    padding: 5px;
+    line-height: 10px;
+    margin: 0 0 0px;
+    border-bottom: none;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.voffset {
+    margin-top: 2px;
+}
+
+.voffset1 {
+    margin-top: 5px;
+}
+
+.voffset2 {
+    margin-top: 10px;
+}
+
+.voffset3 {
+    margin-top: 15px;
+}
+
+.voffset4 {
+    margin-top: 30px;
+}
+
+.voffset5 {
+    margin-top: 40px;
+}
+
+.voffset6 {
+    margin-top: 60px;
+}
+
+.voffset7 {
+    margin-top: 80px;
+}
+
+.voffset8 {
+    margin-top: 100px;
+}
+
+.voffset9 {
+    margin-top: 150px;
+}
+
+.byte {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 12px;
+    border: 1px solid;
+    border-color: gray;
+    background-color: lightgray;
+    padding: 2px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.bytetb {
+    width: 24px;
+    height: 24px;
+    text-align: center;
+}
+
+.normal {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0;
+}
+.ace_marker-layer .editor-errorline {
+    position: absolute;
+    z-index: 4;
+    background: #FFC9C9;
+}

@@ -1,0 +1,99 @@
+%include "gt.asm"
+covar
+Index : resd 1
+Getal : resd 1
+Som : resd 1
+inarea : resb 70
+outarea :  resb 70
+           db 0Dh, 0Ah
+           
+wfibText : db 'IS HET      e FIBONACCI GETAL'
+nfibText : db 'IS GEEN FIBONACCI GETAL'
+inleiding
+openin
+openuit
+
+VolgendGetal :
+    lees
+    cmp eax, 0
+    je eof
+    
+    cld
+    mov esi, inarea
+    mov edi, outarea
+    mov ecx, 70
+    rep movsb
+    
+    call integer
+
+    ; Fibonacii uitrekenen
+    mov eax, 2
+    mov [Index], eax
+    
+    mov edx, 1
+    mov ebx, 0
+    cmp [Getal], ebx
+    jne NietIndexNul
+        ; Getal heeft 0 als index
+        mov [Index], edx
+        jmp WelFib
+    NietIndexNul :
+    
+    Fibonacci :
+        mov eax, 1
+        add [Index], eax
+        mov [Som], ebx
+        add [Som], edx
+        mov ebx, edx
+        mov edx, [Som]
+        cmp edx, [Getal]
+    jg NietFib
+    je WelFib 
+    jmp Fibonacci
+    
+    NietFib :
+        mov edi, outarea + 7
+        mov esi, nfibText
+        mov ecx, 24
+        rep movsb
+        schrijf
+        jmp VolgendGetal
+    WelFib :
+        mov edi, outarea + 7
+        mov esi, wfibText
+        mov ecx, 29
+        rep movsb
+        mov eax, [Index]
+        call ascii
+        schrijf
+        jmp VolgendGetal
+    
+Next:
+jmp VolgendGetal
+
+eof:
+slot
+
+; Int naar [Getal]
+integer :
+    cld
+    mov esi, inarea
+    mov ecx, 7
+    tekstbin
+    mov [Getal], eax
+ret
+
+ascii :
+    mov edi, outarea + 18
+    mov ebx, 10
+    std
+    lus :
+        mov edx, 0
+        idiv ebx
+        or dl, 30h
+        xchg al, dl
+        stosb
+        xchg al, dl
+        cmp eax, 0
+    jne lus
+ret

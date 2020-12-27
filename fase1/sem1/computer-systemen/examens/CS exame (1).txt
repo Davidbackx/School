@@ -1,0 +1,172 @@
+%include "gt.asm"
+covar
+inarea : resb 70
+outarea : resb 70
+          db 0Dh, 0Ah
+
+; Booleans          
+isVrouw : resd 1 ; Vrouw = 1 / Man = 0
+jongerDan30 : resd 1 ; Jonger = 1 / Ouder = 0
+
+aantalDoelgroep : resd 1
+aantalKlanten : resd 1
+
+doelgroep : resd 1 ; Vrouwen boven 30 in %
+
+; Constanten
+honderd : dd 100
+
+; String
+uitvoerString : db '% van onze klanten maken deel uit van de doelgroep.'
+
+inleiding
+openin
+openuit
+
+LeesInvoer :
+    lees
+    cmp eax, 0
+    je eof
+    
+    call leesKlant
+    
+    ; Vrouw && 30+ ?
+    mov ebx, 1
+    cmp ebx, [isVrouw]
+    jne fouteDoelgroep
+    cmp ebx, [jongerDan30]
+    jne fouteDoelgroep
+        
+        ; Klant is vrouw en 30+
+        add [aantalDoelgroep], ebx
+    
+    fouteDoelgroep :
+    
+jmp LeesInvoer
+
+eof :
+
+; Bereken procent doelgroep
+mov edx, 0
+mov eax, [aantalDoelgroep]
+imul dword [honderd]
+idiv dword [aantalKlanten]
+mov [doelgroep], eax
+
+; Uitvoer
+call spaties
+
+mov eax, [doelgroep]
+
+
+cld
+
+; Bepaal op welke plek het percentage komt te staan
+; Aangezien 
+; X < 10 : lengte = 1
+; X > 10 && X < 100 : lengte = 2
+; X = 100 : lengte = 3
+
+cmp eax, 10
+jg groter
+    ; X < 10%
+    mov edi, outarea + 1
+    jmp begin
+groter :
+cmp eax, 100
+jne normaal
+    ; X < 100%
+    mov edi, outarea + 3
+    jmp begin
+normaal :
+    ; X > 10% && X < 100%
+    mov edi, outarea + 2
+begin : 
+
+mov esi, uitvoerString
+mov ecx, 51
+rep movsb
+
+call ascii
+
+schrijf
+
+slot
+
+leesKlant:
+    ; Vind geslacht en Leeftijd
+    
+    push eax
+    push ebx
+    mov ebx, 1
+    add [aantalKlanten], ebx
+
+    ; Ga na of de klant man of vrouw is
+    
+    mov esi, inarea + 26
+    lodsb
+    cmp al, 'V'
+    jne isMan
+        mov ebx, 1
+        mov [isVrouw], ebx
+        jmp nextLeeftijd
+    isMan:
+        mov ebx, 0
+        mov [isVrouw], ebx
+    
+    nextLeeftijd :
+    
+    ; Ga leeftijd na
+    mov esi, inarea + 27
+    mov ecx, 4
+    tekstbin
+    cmp eax, 1988
+    jl isOuder
+        mov ebx, 1
+        mov [jongerDan30], ebx
+        jmp nextEinde
+    isOuder :
+        mov ebx, 0
+        mov [jongerDan30], ebx
+        
+    
+    nextEinde :
+    pop eax
+    pop ebx
+ret
+
+spaties : 
+    cld
+    mov al, ' '
+    mov edi, outarea
+    mov ecx, 70
+    rep stosb
+ret
+
+ascii :
+    mov ebx, 10
+    
+    cmp eax, 10
+    jg Groter
+        mov edi, outarea
+        jmp Begin
+    Groter :
+    cmp eax, 100
+    jne Normaal
+        mov edi, outarea + 2
+        jmp Begin
+    Normaal :
+        mov edi, outarea + 1
+    
+    Begin : 
+    std
+    lus :
+        mov edx, 0
+        idiv ebx
+        or dl, 30h
+        xchg al, dl
+        stosb
+        xchg al, dl
+    cmp eax, 0
+    jne lus
+ret

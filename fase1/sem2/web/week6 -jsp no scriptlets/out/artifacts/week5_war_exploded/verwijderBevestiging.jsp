@@ -1,0 +1,45 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="css/sample.css">
+    <meta charset="UTF-8">
+    <title>Verwijder een student</title>
+</head>
+<body>
+<header>
+    <div>
+        <h1>Studentenregistratie</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="zoekForm.jsp">Zoek een student</a></li>
+                <li><a href="studentForm.jsp">Voeg een student toe</a></li>
+                <li><a href="StudentInfo?command=overview">Bekijk alle studenten</a></li>
+            </ul>
+        </nav>
+    </div>
+    <img alt="Toscane" src="images/student.jpg">
+
+</header>
+
+<main id="container">
+    <article>
+        <h2>Verwijder deze student</h2>
+        <%
+            String naam = request.getParameter("naam");
+            String voornaam = request.getParameter("voornaam");
+        %>
+        <p>Ben je zeker dat je de student <%=voornaam%> <%=naam%> wil verwijderen?</p>
+        <form action="StudentInfo?command=verwijderBevestig" method="POST">
+            <input type="hidden" name="voornaam" value=<%=voornaam%>>
+            <input type="hidden" name="naam" value=<%=naam%>>
+
+            <input type="submit" value="Zeker" name="submit">
+            <input type="submit" value="Toch niet" name="submit">
+        </form>
+    </article>
+</main>
+</body>
+</html>

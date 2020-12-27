@@ -1,0 +1,16 @@
+From Jan Van Hee to Everyone:  01:32 PM
+Lieve studenten, als jullie een webcam hebben, zet je die dan ff aan, dat we eens wat gezichten zien?
+From igorj to Everyone:  01:33 PM
+mijn camera is kapot :/
+From Kobe to Everyone:  01:37 PM
+Ik heb 2 schermen staan, dus ik kijk naar de zoom meeting als ik wegkijk van de camera
+From Jan Van Hee to Everyone:  01:43 PM
+Een tiental tabellen zou nuttig zijn
+From Toon Dubois to Everyone:  01:51 PM
+Rafael heeft nog toestemming nodig om mee te volgen
+From Jan Van Hee to Everyone:  02:09 PM
+Suggestie om in het begin te doen: iemand maakt een schema. Een teamgenoot probeert dit te droppen, wat niet zal lukken. Iemand anders probeert een tabel hierin te maken. Dat zal ook niet lukken. Dan geeft de eerste toestemming aan de teamleden om alles te doen, dus ook nieuwe tabel aanmaken. Test dit eerst eens uit met zijn allen, zodat je dit werkend krijgt. Daarna kan het echte werk beginnen.
+Niet toegestaan: drop cascade, want dan kan je alles in 1 commando droppen en hoef je niet over de volgorde na te denken. Dus: we droppen elke tabel en vervolgens het schema in de juiste volgorde
+Hoeveel rijen voeg je toe in een tabel? Zoveel als nodig om een zinvolle query te doen. Denk aan onze tennisdb, slechts 20 spelers, 15 boetes en geen 5000 :-)
+Random data genereren: doe eens een zoekopdracht “ generatie random data sql”. Je vindt dan tools die gratis 1000 rijen of zo genereren van random data, zelfs direct in SQL formaat
+Vb https://mockaroo.com , vele andere beschikbaar
